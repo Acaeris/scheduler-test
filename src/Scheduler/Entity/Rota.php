@@ -2,12 +2,13 @@
 
 namespace Scheduler\Entity;
 
+use Scheduler\Entity\Interfaces\EntityInterface;
 use Scheduler\Entity\Interfaces\RotaInterface;
 use Scheduler\Entity\Interfaces\TimestampsInterface;
 use Scheduler\Library\Immutable\ImmutableInterface;
 use Scheduler\Library\Immutable\ImmutableTrait;
 
-class Rota implements ImmutableInterface, RotaInterface, TimestampsInterface
+class Rota implements ImmutableInterface, RotaInterface, TimestampsInterface, EntityInterface
 {
     use ImmutableTrait {
         __construct as constructImmutable;
@@ -65,5 +66,12 @@ class Rota implements ImmutableInterface, RotaInterface, TimestampsInterface
     public function getUpdatedAt(): \DateTimeImmutable
     {
         return $this->updatedAt;
+    }
+
+    public function getKeyData(): array
+    {
+        return [
+            'rotaId' => $this->rotaId
+        ];
     }
 }

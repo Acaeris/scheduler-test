@@ -3,7 +3,9 @@
 namespace spec\Scheduler\Entity;
 
 use PhpSpec\ObjectBehavior;
+use Scheduler\Entity\Interfaces\EntityInterface;
 use Scheduler\Entity\Shop;
+use Scheduler\Library\Immutable\ImmutableException;
 use Scheduler\Library\Immutable\ImmutableInterface;
 use Scheduler\Entity\Interfaces\ShopInterface;
 use Scheduler\Entity\Interfaces\TimestampsInterface;
@@ -30,11 +32,20 @@ class ShopSpec extends ObjectBehavior
         $this->shouldHaveType(Shop::class);
         $this->shouldImplement(ShopInterface::class);
         $this->shouldImplement(TimestampsInterface::class);
+        $this->shouldImplement(EntityInterface::class);
     }
 
     public function it_is_immutable()
     {
         $this->shouldImplement(ImmutableInterface::class);
+        $this->shouldThrow(ImmutableException::class)->during('__set', ['shopId', 1]);
+    }
+
+    public function it_can_return_key_data_for_indexing()
+    {
+        $this->getKeyData()->shouldReturn([
+            'shopId' => 1
+        ]);
     }
 
     public function it_has_all_data_accessible()

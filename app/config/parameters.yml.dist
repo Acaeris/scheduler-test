@@ -1,2 +1,6 @@
 parameters:
     secret: "some_value_this_isnt_known_about"
+    database_host: "localhost"
+    database_name: "db_name"
+    database_user: "db_user"
+    database_password: "db_pass"

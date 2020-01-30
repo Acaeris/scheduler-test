@@ -2,11 +2,12 @@
 
 namespace Scheduler\Entity;
 
+use Scheduler\Entity\Interfaces\EntityInterface;
 use Scheduler\Entity\Interfaces\ShiftBreakInterface;
 use Scheduler\Library\Immutable\ImmutableInterface;
 use Scheduler\Library\Immutable\ImmutableTrait;
 
-class ShiftBreak implements ImmutableInterface, ShiftBreakInterface
+class ShiftBreak implements ImmutableInterface, ShiftBreakInterface, EntityInterface
 {
     use ImmutableTrait {
         __construct as constructImmutable;
@@ -54,5 +55,12 @@ class ShiftBreak implements ImmutableInterface, ShiftBreakInterface
     public function getEndTime(): \DateTimeImmutable
     {
         return $this->endTime;
+    }
+
+    public function getKeyData(): array
+    {
+        return [
+            'shiftBreakId' => $this->shiftBreakId
+        ];
     }
 }

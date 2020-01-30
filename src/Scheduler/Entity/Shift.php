@@ -2,12 +2,13 @@
 
 namespace Scheduler\Entity;
 
+use Scheduler\Entity\Interfaces\EntityInterface;
 use Scheduler\Entity\Interfaces\ShiftInterface;
 use Scheduler\Entity\Interfaces\TimestampsInterface;
 use Scheduler\Library\Immutable\ImmutableInterface;
 use Scheduler\Library\Immutable\ImmutableTrait;
 
-final class Shift implements ImmutableInterface, ShiftInterface, TimestampsInterface
+final class Shift implements ImmutableInterface, ShiftInterface, TimestampsInterface, EntityInterface
 {
     use ImmutableTrait {
         __construct as constructImmutable;
@@ -87,5 +88,12 @@ final class Shift implements ImmutableInterface, ShiftInterface, TimestampsInter
     public function getUpdatedAt(): \DateTimeImmutable
     {
         return $this->updatedAt;
+    }
+
+    public function getKeyData(): array
+    {
+        return [
+            'shiftId' => $this->shiftId
+        ];
     }
 }

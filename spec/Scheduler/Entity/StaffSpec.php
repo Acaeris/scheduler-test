@@ -3,7 +3,9 @@
 namespace spec\Scheduler\Entity;
 
 use PhpSpec\ObjectBehavior;
+use Scheduler\Entity\Interfaces\EntityInterface;
 use Scheduler\Entity\Staff;
+use Scheduler\Library\Immutable\ImmutableException;
 use Scheduler\Library\Immutable\ImmutableInterface;
 use Scheduler\Entity\Interfaces\StaffInterface;
 use Scheduler\Entity\Interfaces\TimestampsInterface;
@@ -32,11 +34,20 @@ class StaffSpec extends ObjectBehavior
         $this->shouldHaveType(Staff::class);
         $this->shouldImplement(StaffInterface::class);
         $this->shouldImplement(TimestampsInterface::class);
+        $this->shouldImplement(EntityInterface::class);
     }
 
     public function it_is_immutable()
     {
         $this->shouldImplement(ImmutableInterface::class);
+        $this->shouldThrow(ImmutableException::class)->during('__set', ['staffId', 1]);
+    }
+
+    public function it_can_return_key_data_for_indexing()
+    {
+        $this->getKeyData()->shouldReturn([
+            'staffId' => 1
+        ]);
     }
 
     public function it_has_all_data_accessible()

@@ -5,13 +5,19 @@ build:
 	docker build -t scheduler -f Dockerfile .
 
 start: stop
-	docker run -d -p 80:80 --name scheduler scheduler
+    # Database
+    docker run -d --name scheduler-db -e "MYSQL_ROOT_PASSWORD=4wV*4ynnCMXj" mysql:latest
+
+    # Scheduler
+	docker run -d -p 80:80 --name scheduler \
+	 --link scheduler-db:mysql.local \
+	 scheduler
 
 stop:
-	@docker rm --vf scheduler||:
+	@docker rm --vf scheduler scheduler-db||:
 
 clean: stop
-	docker rmi -f scheduler
+	docker rmi -f scheduler mysql
 
 rsync:
 	ifneq ($(wildcard vendor),)

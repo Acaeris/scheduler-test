@@ -3,7 +3,9 @@
 namespace spec\Scheduler\Entity;
 
 use PhpSpec\ObjectBehavior;
+use Scheduler\Entity\Interfaces\EntityInterface;
 use Scheduler\Entity\ShiftBreak;
+use Scheduler\Library\Immutable\ImmutableException;
 use Scheduler\Library\Immutable\ImmutableInterface;
 use Scheduler\Entity\Interfaces\ShiftBreakInterface;
 
@@ -28,11 +30,20 @@ class ShiftBreakSpec extends ObjectBehavior
     {
         $this->shouldHaveType(ShiftBreak::class);
         $this->shouldImplement(ShiftBreakInterface::class);
+        $this->shouldImplement(EntityInterface::class);
     }
 
     public function it_is_immutable()
     {
         $this->shouldImplement(ImmutableInterface::class);
+        $this->shouldThrow(ImmutableException::class)->during('__set', ['shiftBreakId', 1]);
+    }
+
+    public function it_can_return_key_data_for_indexing()
+    {
+        $this->getKeyData()->shouldReturn([
+            'shiftBreakId' => 1
+        ]);
     }
 
     public function it_has_all_data_accessible()
