@@ -8,3 +8,8 @@ services:
     resource: '../../src/Scheduler/*'
     exclude: '../../src/Scheduler/{Entity,Repository,Library}'
     public: true
+  Scheduler\Processor\SingleManningProcessor:
+    arguments:
+      $logger: '@logger'
+      $shiftRepository: '@Scheduler\Repository\ShiftRepository'
+      $shiftBreakRepository: '@Scheduler\Repository\ShiftBreakRepository'

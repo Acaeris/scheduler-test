@@ -24,7 +24,6 @@ class ShiftBreakRepositorySpec extends ObjectBehavior
         Connection $connection,
         LoggerInterface $logger
     ) {
-        $connection->fetchAll('', [])->willReturn($this->mockData);
         $this->beConstructedWith($connection, $logger);
     }
 
@@ -34,9 +33,18 @@ class ShiftBreakRepositorySpec extends ObjectBehavior
         $this->shouldImplement(RepositoryInterface::class);
     }
 
-    public function it_should_fetch_shift_break_data()
-    {
+    public function it_should_fetch_shift_break_data(
+        Connection $connection
+    ) {
+        $connection->fetchAll('', [])->willReturn($this->mockData);
         $this->fetch("")->shouldReturnArrayOfShiftBreaks();
+    }
+
+    public function it_should_fetch_shift_break_data_by_shift_id(
+        Connection $connection
+    ) {
+        $connection->fetchAll('SELECT * FROM shiftBreaks WHERE shiftId = :shiftId', ['shiftId' => 1])->willReturn($this->mockData);
+        $this->fetchByShiftID(1)->shouldReturnArrayOfShiftBreaks();
     }
 
     public function it_can_convert_data_to_shift_break_object()

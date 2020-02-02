@@ -47,6 +47,11 @@ class ShiftRepository implements RepositoryInterface
         return $this->shifts;
     }
 
+    public function fetchByRotaID(int $rotaID): array
+    {
+        return $this->fetch('SELECT * FROM shifts WHERE rotaId = :rotaId', ['rotaId' => $rotaID]);
+    }
+
     private function processResults(array $results)
     {
         if ($results !== false) {

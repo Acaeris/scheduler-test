@@ -25,7 +25,6 @@ class RotaRepositorySpec extends ObjectBehavior
         Connection $connection,
         LoggerInterface $logger
     ) {
-        $connection->fetchAll('', [])->willReturn($this->mockData);
         $this->beConstructedWith($connection, $logger);
     }
 
@@ -35,9 +34,18 @@ class RotaRepositorySpec extends ObjectBehavior
         $this->shouldImplement(RepositoryInterface::class);
     }
 
-    public function it_should_fetch_rota_data()
-    {
+    public function it_should_fetch_rota_data(
+        Connection $connection
+    ) {
+        $connection->fetchAll('', [])->willReturn($this->mockData);
         $this->fetch("")->shouldReturnArrayOfRotas();
+    }
+
+    public function it_should_fetch_rota_data_by_rota_id(
+        Connection $connection
+    ) {
+        $connection->fetchAll('SELECT * FROM rotas WHERE rotaId = :rotaId', ['rotaId' => 1])->willReturn($this->mockData);
+        $this->fetchByID(1)->shouldReturnArrayOfShifts();
     }
 
     public function it_can_convert_data_to_rota_object()

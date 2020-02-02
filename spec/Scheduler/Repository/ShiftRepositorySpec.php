@@ -28,7 +28,6 @@ class ShiftRepositorySpec extends ObjectBehavior
         Connection $connection,
         LoggerInterface $logger
     ) {
-        $connection->fetchAll('',  [])->willReturn($this->mockData);
         $this->beConstructedWith($connection, $logger);
     }
 
@@ -38,9 +37,18 @@ class ShiftRepositorySpec extends ObjectBehavior
         $this->shouldImplement(RepositoryInterface::class);
     }
 
-    public function it_should_fetch_shift_data()
-    {
+    public function it_should_fetch_shift_data(
+        Connection $connection
+    ) {
+        $connection->fetchAll('',  [])->willReturn($this->mockData);
         $this->fetch('')->shouldReturnArrayOfShifts();
+    }
+
+    public function it_should_fetch_shift_data_by_rota_id(
+        Connection $connection
+    ) {
+        $connection->fetchAll('SELECT * FROM shifts WHERE rotaId = :rotaId', ['rotaId' => 1])->willReturn($this->mockData);
+        $this->fetchByRotaID(1)->shouldReturnArrayOfShifts();
     }
 
     public function it_can_convert_data_to_shift_object()

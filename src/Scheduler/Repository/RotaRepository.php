@@ -45,6 +45,11 @@ class RotaRepository implements RepositoryInterface
         return $this->rotas;
     }
 
+    public function fetchByID(int $rotaId): array
+    {
+        return $this->fetch('SELECT * FROM rotas WHERE rotaId = :rotaId', ['rotaId' => $rotaId]);
+    }
+
     private function processResults(array $results)
     {
         if ($results !== false) {

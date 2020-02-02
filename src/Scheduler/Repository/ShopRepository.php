@@ -24,13 +24,13 @@ class ShopRepository implements RepositoryInterface
         $this->logger = $logger;
     }
 
-    public function create(array $rota): EntityInterface
+    public function create(array $shop): EntityInterface
     {
         return new Shop(
-            $rota['shopId'],
-            $rota['shopName'],
-            new \DateTimeImmutable($rota['createdAt']),
-            new \DateTimeImmutable($rota['updatedAt'])
+            $shop['shopId'],
+            $shop['shopName'],
+            new \DateTimeImmutable($shop['createdAt']),
+            new \DateTimeImmutable($shop['updatedAt'])
         );
     }
 

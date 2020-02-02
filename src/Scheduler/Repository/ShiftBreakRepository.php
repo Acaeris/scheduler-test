@@ -44,6 +44,11 @@ class ShiftBreakRepository implements RepositoryInterface
         return $this->shiftBreaks;
     }
 
+    public function fetchByShiftID(int $shiftId): array
+    {
+        return $this->fetch('SELECT * FROM shiftBreaks WHERE shiftId = :shiftId', ['shiftId' => $shiftId]);
+    }
+
     private function processResults(array $results)
     {
         if ($results !== false) {
